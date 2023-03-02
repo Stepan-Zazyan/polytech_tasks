@@ -42,4 +42,13 @@ class RepeatedLettersTest {
         String actual = rl.deleteRepeatedLetters(str);
         assertEquals(expected, actual);
     }
+
+    @Test
+    void whenNullString() {
+        String str = null;
+        RepeatedLetters rl = new RepeatedLetters();
+        assertThatThrownBy(() -> rl.deleteRepeatedLetters(str))
+                .isInstanceOf(NullPointerException.class);
+    }
+
 }

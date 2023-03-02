@@ -1,19 +1,40 @@
 package polytech.medium;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class RepeatedLetters {
+
     public String deleteRepeatedLetters(String str) {
-        List<String> list = new LinkedList<>(List.of(str.split("")));
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (Objects.equals(list.get(i), list.get(i + 1))) {
-                list.remove(list.get(i));
-                list.remove(list.get(i));
-                i = -1;
+        List<String> list = new ArrayList<>(List.of(str.split("")));
+        Stack<String> stack = new Stack<>();
+        Stack<String> st = new Stack<>();
+        for (String s : list) {
+            stack.push(s);
+        }
+        while (!stack.empty()) {
+            if (!st.empty()) {
+                while (!st.empty()) {
+                    if (!stack.empty() && Objects.equals(st.peek(), stack.peek())) {
+                        st.pop();
+                        stack.pop();
+                    } else {
+                        break;
+                    }
+                }
+            }
+            if (!stack.empty()) {
+                String s = stack.pop();
+                if (!stack.empty() && Objects.equals(s, stack.peek())) {
+                    stack.pop();
+                } else {
+                    st.push(s);
+                }
             }
         }
-        return list.stream().map(String::valueOf)
-                .collect(Collectors.joining(""));
+        String result = "";
+        while (!st.empty()) {
+            result += st.pop();
+        }
+        return result;
     }
 }
